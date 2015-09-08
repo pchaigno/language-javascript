@@ -14,7 +14,7 @@
 'name': 'JavaScript'
 'patterns': [
   {
-    'begin': '(?<!\\.)\\b(import)(?!\\s*:)\\b'
+    'begin': '(?<!\\.)\\b(import)\\b'
     'beginCaptures':
       '1':
         'name': 'keyword.control.js'
@@ -35,10 +35,6 @@
       {
         'match': ','
         'name': 'meta.delimiter.object.comma.js'
-      }
-      {
-        'match': '\\{|\\}'
-        'name': 'meta.brace.curly.js'
       }
     ]
     'end': '(;)?$'
@@ -358,6 +354,9 @@
     'name': 'support.function.js.console'
   }
   {
+    'include': '#objects'
+  }
+  {
     'include': '#numbers'
   }
   {
@@ -380,15 +379,15 @@
     'name': 'storage.type.arrow.js'
   }
   {
-    'match': '(?<!\\.)\\b(class|enum|function|interface)(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\b(class|enum|function|interface)\\b'
     'name': 'storage.type.js'
   }
   {
-    'match': '(?<!\\.)\\b(async|export|extends|implements|let|private|protected|public|static|var)(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\b(async|export|extends|implements|let|private|protected|public|static|var)\\b'
     'name': 'storage.modifier.js'
   }
   {
-    'begin': '(?<!\\.)\\b(const)(?!\\s*:)\\b'
+    'begin': '(?<!\\.)\\b(const)\\b'
     'beginCaptures':
       '1':
         'name': 'storage.modifier.js'
@@ -426,20 +425,19 @@
         'name': 'meta.brace.round.js'
       }
       {
-        'match': '\\{|\\}'
-        'name': 'meta.brace.curly.js'
-      }
-      {
         'match': '\\[|\\]'
         'name': 'meta.brace.square.js'
       }
       {
         'include': '#comments'
       }
+      {
+        'include': '#objects'
+      }
     ]
   }
   {
-    'match': '(?<!\\.)\\b(yield)(?!\\s*:)\\b(?:\\s*(\\*))?',
+    'match': '(?<!\\.)\\b(yield)\\b(?:\\s*(\\*))?',
     'captures':
       '1':
         'name': 'keyword.control.js'
@@ -448,7 +446,7 @@
     'name': 'meta.control.yield.js'
   }
   {
-    'match': '(?<!\\.)\\b(await|break|case|catch|continue|do|else|finally|for|if|import|from|package|return|switch|throw|try|while|with)(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\b(await|break|case|catch|continue|do|else|finally|for|if|import|from|package|return|switch|throw|try|while|with)\\b'
     'name': 'keyword.control.js'
   }
   {
@@ -456,31 +454,31 @@
     'name': 'keyword.control.js'
   }
   {
-    'match': '(?<!\\.)\\b(delete|in|of|instanceof|new|typeof|void)(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\b(delete|in|of|instanceof|new|typeof|void)\\b'
     'name': 'keyword.operator.js'
   }
   {
-    'match': '(?<!\\.)\\btrue(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\btrue\\b'
     'name': 'constant.language.boolean.true.js'
   }
   {
-    'match': '(?<!\\.)\\bfalse(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\bfalse\\b'
     'name': 'constant.language.boolean.false.js'
   }
   {
-    'match': '(?<!\\.)\\bnull(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\bnull\\b'
     'name': 'constant.language.null.js'
   }
   {
-    'match': '(?<!\\.)\\b([A-Z][A-Z0-9_]+)(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\b([A-Z][A-Z0-9_]+)\\b'
     'name': 'constant.other.js'
   }
   {
-    'match': '(?<!\\.)\\b(super|this)(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\b(super|this)\\b'
     'name': 'variable.language.js'
   }
   {
-    'match': '(?<!\\.)\\b(debugger)(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\b(debugger)\\b'
     'name': 'keyword.other.js'
   }
   {
@@ -512,11 +510,11 @@
     'name': 'support.function.event-handler.js'
   }
   {
-    'match': '(?<!\\.)\\b(require)(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\b(require)\\b'
     'name': 'support.function.js'
   }
   {
-    'match': '(?<!\\.)\\b(module|exports|__filename|__dirname|global|process)(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\b(module|exports|__filename|__dirname|global|process)\\b'
     'name': 'support.variable.js'
   }
   {
@@ -564,10 +562,6 @@
         'name': 'punctuation.section.scope.end.js'
     'comment': 'Allows the special return snippet to fire.'
     'match': '(\\{)(\\})'
-  }
-  {
-    'match': '\\{|\\}'
-    'name': 'meta.brace.curly.js'
   }
   {
     'match': '\\(|\\)'
@@ -700,8 +694,7 @@
         'name': 'meta.brace.square.js'
       }
       {
-        'match': '\\{|\\}'
-        'name': 'meta.brace.curly.js'
+        'include': '#objects'
       }
       {
         'match': ','
@@ -717,6 +710,57 @@
       {
         'match': '[a-zA-Z_$][a-zA-Z_$0-9]*'
         'name': 'variable.parameter.function.js'
+      }
+    ]
+  'objects':
+    'patterns': [
+      {
+        'begin': '\\{'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.object.begin.js'
+        'end': '\\}'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.object.end.js'
+        'name': 'meta.object.js'
+        'patterns': [
+          {
+            'name': 'meta.object.property.js'
+            'comment': 'This is required to support destructuring assignments such as {line: l, row} = object.'
+            'match': '(\\.{3})?([a-zA-Z_]\\w*)\\s*(?:(,)|(?=\\}))'
+            'captures':
+              '1':
+                'name': 'keyword.operator.destructuring-assignment.js'
+              '2':
+                'name': 'meta.object.property.name.js'
+              '3':
+                'name': 'punctutation.definition.object.delimiter.js'
+          }
+          {
+            'name': 'keyword.operator.destructuring-assignment.js'
+            'match': '...\s*(?:(,)|(?=\\}))'
+          }
+          {
+            'begin': '([a-zA-Z_]\\w*)\\s*(:)'
+            'beginCaptures':
+              '1':
+                'name': 'meta.object.property.name.js'
+              '2':
+                'name': 'punctuation.definition.object.property.delimiter.js'
+            'end': '(,)|(?=\\})'
+            'endCaptures':
+              '1':
+                'name': 'punctutation.definition.object.delimiter.js'
+            'name': 'meta.object.property.js'
+            'contentName': 'meta.object.property.value.js'
+            'patterns': [
+              {
+                'include': '$self'
+              }
+            ]
+          }
+        ]
       }
     ]
   'interpolated_js':

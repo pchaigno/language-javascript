@@ -271,16 +271,16 @@ describe "Javascript grammar", ->
       {tokens} = grammar.tokenizeLine('const {first:f,second,...rest} = obj;')
       expect(tokens[0]).toEqual value: 'const', scopes: ['source.js', 'storage.modifier.js']
       expect(tokens[1]).toEqual value: ' ', scopes: ['source.js']
-      expect(tokens[2]).toEqual value: '{', scopes: ['source.js', 'meta.brace.curly.js']
-      expect(tokens[3]).toEqual value: 'first', scopes: ['source.js']
-      expect(tokens[4]).toEqual value: ':', scopes: ['source.js', 'keyword.operator.js']
-      expect(tokens[5]).toEqual value: 'f', scopes: ['source.js', 'constant.other.js']
-      expect(tokens[6]).toEqual value: ',', scopes: ['source.js', 'meta.delimiter.object.comma.js']
-      expect(tokens[7]).toEqual value: 'second', scopes: ['source.js', 'constant.other.js']
-      expect(tokens[8]).toEqual value: ',', scopes: ['source.js', 'meta.delimiter.object.comma.js']
-      expect(tokens[9]).toEqual value: '...', scopes: ['source.js', 'keyword.operator.js']
-      expect(tokens[10]).toEqual value: 'rest', scopes: ['source.js', 'constant.other.js']
-      expect(tokens[11]).toEqual value: '}', scopes: ['source.js', 'meta.brace.curly.js']
+      expect(tokens[2]).toEqual value: '{', scopes: ['source.js', 'meta.object.js', 'punctuation.definition.object.begin.js']
+      expect(tokens[3]).toEqual value: 'first', scopes: ['source.js', 'meta.object.js', 'meta.object.property.js', 'meta.object.property.name.js']
+      expect(tokens[4]).toEqual value: ':', scopes: ['source.js', 'meta.object.js', 'meta.object.property.js', 'punctuation.definition.object.property.delimiter.js']
+      expect(tokens[5]).toEqual value: 'f', scopes: ['source.js', 'meta.object.js', 'meta.object.property.js', 'meta.object.property.value.js']
+      expect(tokens[6]).toEqual value: ',', scopes: ['source.js', 'meta.object.js', 'meta.object.property.js', 'punctutation.definition.object.delimiter.js']
+      expect(tokens[7]).toEqual value: 'second', scopes: ['source.js', 'meta.object.js', 'meta.object.property.js', 'meta.object.property.name.js']
+      expect(tokens[8]).toEqual value: ',', scopes: ['source.js', 'meta.object.js', 'meta.object.property.js', 'punctutation.definition.object.delimiter.js']
+      expect(tokens[9]).toEqual value: '...', scopes: ['source.js', 'meta.object.js', 'meta.object.property.js', 'keyword.operator.destructuring-assignment.js']
+      expect(tokens[10]).toEqual value: 'rest', scopes: ['source.js', 'meta.object.js', 'meta.object.property.js', 'meta.object.property.name.js']
+      expect(tokens[11]).toEqual value: '}', scopes: ['source.js', 'meta.object.js', 'punctuation.definition.object.end.js']
       expect(tokens[12]).toEqual value: ' ', scopes: ['source.js']
       expect(tokens[13]).toEqual value: '=', scopes: ['source.js', 'keyword.operator.js']
       expect(tokens[14]).toEqual value: ' obj', scopes: ['source.js']
@@ -335,6 +335,14 @@ describe "Javascript grammar", ->
       expect(tokens[3]).toEqual value: '.', scopes: ['source.js', 'meta.delimiter.method.period.js']
       expect(tokens[4]).toEqual value: 'systemLanguage', scopes: ['source.js', 'support.constant.js']
       expect(tokens[5]).toEqual value: ';', scopes: ['source.js', 'punctuation.terminator.statement.js']
+
+    it "tokenizes constants inside ternary constructs", ->
+      {tokens} = grammar.tokenizeLine('true? true : true')
+      expect(tokens[0]).toEqual value: 'true', scopes: ['source.js', 'constant.language.boolean.true.js']
+      expect(tokens[1]).toEqual value: '?', scopes: ['source.js', 'keyword.operator.js']
+      expect(tokens[3]).toEqual value: 'true', scopes: ['source.js', 'constant.language.boolean.true.js']
+      expect(tokens[5]).toEqual value: ':', scopes: ['source.js', 'keyword.operator.js']
+      expect(tokens[7]).toEqual value: 'true', scopes: ['source.js', 'constant.language.boolean.true.js']
 
   describe "ES6 string templates", ->
     it "tokenizes them as strings", ->
